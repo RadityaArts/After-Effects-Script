@@ -1,11 +1,14 @@
+// Mulai undo group untuk membungkus seluruh skrip sebagai satu aksi undo
+app.beginUndoGroup("Add Camera Wiggle Controller");
+
 // Ambil komposisi dan layer yang dipilih
 var myComp = app.project.activeItem;
 var selectedLayer = myComp.selectedLayers[0];
 var cameraLayer = null;
 
-// Buat expression untuk masing-masing property
+// Buat expression untuk property
 selectedLayer.property("Point of Interest").expression =
-    'seedRandom(5);\nwiggle(thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Wiggle Speed (wigs/sec)"), thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Wiggle Amount (pixels)"));';
+    'seedRandom(thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Random Seed"));\nwiggle(thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Frequency"), thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Amplitude"), thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Octaves"), thisComp.layer("WIGGLE").effect("Wiggle - Point of Interest")("Intensity"));';
 
 // Cari layer null dengan nama "WIGGLE" di dalam komposisi
 var wiggleNull = null;
@@ -39,7 +42,10 @@ if (!wiggleNull) {
 wiggleNull.property("Anchor Point").setValue([50, 50, 0]);
 
 // Tambahkan efek Preset ke dalam layer null jika belum ada
-var thePreset = File("C:\\Program Files\\Adobe\\Adobe After Effects CC 2019\\Support Files\\Presets\\RadityaArts Presets Pack\\Camera\\C_Wiggle Control.ffx");
+var thePreset = File("C:\\Program Files\\Adobe\\Adobe After Effects 2020\\Support Files\\Presets\\RadityaArts Presets Pack\\Pseudo\\Ps_Wiggle Control.ffx");
 if (!wiggleNull.effect("C_Wiggle Control")) {
   wiggleNull.applyPreset(thePreset);
 }
+
+// Akhir dari undo group
+app.endUndoGroup();
