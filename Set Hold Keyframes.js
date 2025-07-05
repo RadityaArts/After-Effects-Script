@@ -24,8 +24,11 @@ function setHold() {
       var prop = propertyGroup[j];
       
       if (prop.propertyType === PropertyType.PROPERTY) {
-        for (var k = 1; k <= prop.numKeys; k++) {
-          prop.setInterpolationTypeAtKey(k, KeyframeInterpolationType.HOLD);
+        var selectedKeys = prop.selectedKeys;
+        
+        for (var k = 0; k < selectedKeys.length; k++) {
+          var keyIndex = selectedKeys[k];
+          prop.setInterpolationTypeAtKey(keyIndex, KeyframeInterpolationType.HOLD);
         }
       }
     }
